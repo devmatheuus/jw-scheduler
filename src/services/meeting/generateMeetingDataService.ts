@@ -51,8 +51,6 @@ const extractLinksFromWorkbooksHTML = async (
     links.push(link);
   });
 
-  // await destroyFile('workbooks-links');
-
   return links;
 };
 
@@ -194,9 +192,13 @@ const saveToJson = async (): Promise<void> => {
 };
 
 export const generateMeetingDataService = async (url: string) => {
-  await configureMeetingDataObject();
-  await accessingAndSavingWorkbooksHTML(url);
-  await downloadEachStudyOfTheWeekHTML();
+  try {
+    await configureMeetingDataObject();
+    await accessingAndSavingWorkbooksHTML(url);
+    await downloadEachStudyOfTheWeekHTML();
 
-  saveToJson();
+    saveToJson();
+  } catch (error: any) {
+    throw new Error(error.message);
+  }
 };
