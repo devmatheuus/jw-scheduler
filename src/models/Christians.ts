@@ -65,10 +65,9 @@ export class Christians {
   @BeforeInsert()
   @BeforeUpdate()
   private parseData(): void {
-    this.roles = JSON.stringify(this.roles);
     this.dateOfLastPart = this.dateOfLastPart?.toString();
 
-    if (this.currentResponsibilities.length === 0) {
+    if (this.currentResponsibilities?.length === 0) {
       this.currentResponsibilities = JSON.stringify([]);
     } else {
       this.currentResponsibilities = JSON.stringify(
