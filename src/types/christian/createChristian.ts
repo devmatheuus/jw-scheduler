@@ -3,6 +3,8 @@ import { ChristianRoles } from './roles';
 type CurrentResponsibility = {
   name: string;
   date: Date;
+  owner?: string;
+  assistant?: string;
 };
 
 export interface CreateChristian {
@@ -19,3 +21,7 @@ export interface CreateChristian {
 export interface GetChristian extends CreateChristian {
   id: string;
 }
+
+export type UpdateChristian = Partial<
+  Omit<CreateChristian, 'lastPartMilliseconds'>
+>;

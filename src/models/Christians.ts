@@ -20,7 +20,7 @@ export class Christians {
   public roles: string;
 
   @Column({ type: 'text' })
-  public readonly gender: 'male' | 'female';
+  public gender: 'male' | 'female';
 
   @Column({
     type: 'text',
@@ -60,26 +60,6 @@ export class Christians {
   private loadArrays(): void {
     this.roles = JSON.parse(this.roles);
     this.currentResponsibilities = JSON.parse(this.currentResponsibilities);
-  }
-
-  @BeforeInsert()
-  @BeforeUpdate()
-  private parseData(): void {
-    this.dateOfLastPart = this.dateOfLastPart?.toString();
-
-    if (this.currentResponsibilities?.length === 0) {
-      this.currentResponsibilities = JSON.stringify([]);
-    } else {
-      this.currentResponsibilities = JSON.stringify(
-        this.currentResponsibilities
-      );
-    }
-
-    if (this.roles.length === 0) {
-      this.roles = JSON.stringify([]);
-    } else {
-      this.roles = JSON.stringify(this.roles);
-    }
   }
 
   @BeforeInsert()
