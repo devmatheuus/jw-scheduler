@@ -3,6 +3,7 @@ import { generateMeetingDataController } from '../controllers/meeting/generateMe
 import { getMeetingDataController } from '../controllers/meeting/getMeetingDataController';
 import { body } from 'express-validator';
 import { validateRequest } from '../middlewares/validateRequest';
+import { getMeetingsByMonthController } from '../controllers/meeting/getMeetingsByMonthController';
 
 const router = Router();
 
@@ -20,6 +21,7 @@ export const meetingRoutes = () => {
     generateMeetingDataController
   );
   router.get('', getMeetingDataController);
+  router.get('/months', getMeetingsByMonthController);
 
   return router;
 };
