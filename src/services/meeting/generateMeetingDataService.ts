@@ -7,7 +7,7 @@ import {
   returnMonthsNames,
 } from '../../utils/returnMonthsNames';
 
-const meetingDataObject: any = {};
+let meetingDataObject: any = {};
 
 const currentYear = new Date().getFullYear().toString();
 
@@ -187,14 +187,13 @@ const storeMeetingPoints = async (
 const saveToJson = async (): Promise<void> => {
   const pathToFile = path.resolve(__dirname, '../../meeting.json');
 
-  if (fs.existsSync(pathToFile)) {
-    fs.unlinkSync(pathToFile);
-  }
-
   fs.writeFileSync(
-    path.resolve(__dirname, '../../meeting.json'),
-    JSON.stringify(meetingDataObject, null, 2)
+    path.resolve(pathToFile),
+    JSON.stringify(meetingDataObject, null, 2),
+    { flag: 'w' }
   );
+  meetingDataObject = {};
+
   return;
 };
 

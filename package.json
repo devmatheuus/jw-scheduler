@@ -7,7 +7,8 @@
     "dev": "nodemon --watch src/**/*.ts --exec ts-node src/server.ts",
     "typeorm": "typeorm-ts-node-commonjs",
     "typeorm:run": "typeorm-ts-node-commonjs migration:run -d src/dataSource.ts",
-    "regenerate-db": "rm -rf src/database/database.sqlite && touch src/database/database.sqlite && npm run typeorm:run"
+    "regenerate-db": "rm -rf src/database/database.sqlite && touch src/database/database.sqlite && npm run typeorm:run",
+    "build": "tsc && cd dist && mkdir database && mkdir temp && cd temp && mkdir html && cd .. && cd .. && cp src/database/database.sqlite dist/database/database.sqlite && cp src/meeting.json dist/meeting.json"
   },
   "keywords": [],
   "author": "",
