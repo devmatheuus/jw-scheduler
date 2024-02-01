@@ -1,9 +1,33 @@
 import { appDataSource } from '../../dataSource';
+import { ChristianRoles } from '../../types/christian/roles';
 
-export const getChristiansService = async () => {
+type GetChristianServiceProps = {
+  role?: ChristianRoles;
+  gender?: 'female' | 'male';
+};
+
+export const getChristiansService = async ({
+  gender,
+  role,
+}: GetChristianServiceProps) => {
   const christianRepository = appDataSource.getRepository('christians');
 
-  const christians = await christianRepository.find();
+  if (gender && role) {
+    return await christianRepository.find({
+      where: {
+        gender,
+        roles: '["' + role + '"]',
+      },
+    });
+  }
 
-  return christians;
+  if (!gender && role) {
+    return await christianRepository.find({
+      where: {
+        roles: '["' + role + '"]',
+      },
+    });
+  }
+
+  return await christianRepository.find();
 };

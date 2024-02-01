@@ -57,7 +57,23 @@ export const christianRoutes = () => {
     validateRequest,
     createChristianController
   );
-  router.get('', getChristiansController);
+  router.get(
+    '',
+    [
+      param('role')
+        .isIn(['anciao', 'servo', 'pioneiro', 'publicador'])
+        .withMessage(
+          'A role deve ser uma das seguintes: anciao, servo, pioneiro, publicador'
+        )
+        .optional(),
+      param('gender')
+        .isIn(['female', 'male'])
+        .withMessage('O gênero deve ser masculino ou feminino')
+        .optional(),
+    ],
+    validateRequest,
+    getChristiansController
+  );
   router.get(
     '/:id',
     [param('id').isUUID().withMessage('O id deve ser um UUID')],

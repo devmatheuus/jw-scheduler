@@ -185,10 +185,17 @@ const storeMeetingPoints = async (
 };
 
 const saveToJson = async (): Promise<void> => {
+  const pathToFile = path.resolve(__dirname, '../../meeting.json');
+
+  if (fs.existsSync(pathToFile)) {
+    fs.unlinkSync(pathToFile);
+  }
+
   fs.writeFileSync(
     path.resolve(__dirname, '../../meeting.json'),
     JSON.stringify(meetingDataObject, null, 2)
   );
+  return;
 };
 
 export const generateMeetingDataService = async (url: string) => {

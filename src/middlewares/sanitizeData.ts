@@ -8,7 +8,7 @@ export const sanitizeData = (
   const { body } = req;
   const requestType = req.method;
 
-  const allowedPostFields = ['name', 'roles', 'gender'];
+  const allowedPostFields = ['name', 'roles', 'gender', 'allowedToParticipate'];
   const allowedPatchFields = [
     'name',
     'roles',

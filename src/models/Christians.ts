@@ -37,7 +37,7 @@ export class Christians {
   })
   public currentResponsibilities: string;
 
-  @Column({ type: 'boolean', default: true })
+  @Column({ type: 'boolean' })
   public allowedToParticipate: boolean;
 
   @Column({

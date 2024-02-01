@@ -5,9 +5,9 @@ export const createChristianController = async (
   req: Request,
   res: Response
 ) => {
-  const { name, roles, gender } = req.body;
+  const data = req.body;
 
-  const christian = await createChristianService({ gender, name, roles });
+  const christian = await createChristianService(data);
 
   res.status(201).json({ ...christian });
 };
