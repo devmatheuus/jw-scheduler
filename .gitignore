@@ -4,3 +4,4 @@ goals.txt
 dist
 .env
 *.html
+.vercel
