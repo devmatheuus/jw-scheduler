@@ -3,3 +3,4 @@ temp.ts
 goals.txt
 dist
 .env
+*.html
