@@ -4,11 +4,10 @@ import path from 'path';
 import { BadRequestError } from '../errors/BadRequestError';
 
 export const downloadHTML = async (url: string, fileName: string) => {
+  const filePath = path.resolve(__dirname, `../temp/html/${fileName}.html`);
+  if (fs.existsSync(filePath)) return;
+
   try {
-    const filePath = path.resolve(__dirname, `../temp/html/${fileName}.html`);
-
-    if (fs.existsSync(filePath)) return console.log('HTML já baixado.');
-
     const response = await axios
       .get(url, { responseType: 'text' })
       .catch((error) => {
@@ -18,10 +17,7 @@ export const downloadHTML = async (url: string, fileName: string) => {
     const html = response.data;
 
     fs.writeFileSync(filePath, html);
-
-    console.log('HTML baixado com sucesso.');
   } catch (error: any) {
-    console.error('Erro ao baixar o HTML:', error.message);
     throw new Error(error.message);
   }
 };

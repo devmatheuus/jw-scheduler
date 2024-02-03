@@ -193,8 +193,6 @@ const saveToJson = async (): Promise<void> => {
     { flag: 'w' }
   );
   meetingDataObject = {};
-
-  return;
 };
 
 export const generateMeetingDataService = async (url: string) => {

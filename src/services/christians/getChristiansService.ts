@@ -1,5 +1,6 @@
 import { appDataSource } from '../../dataSource';
 import { ChristianRoles } from '../../types/christian/roles';
+import redis from '../../lib/redis-client';
 
 type GetChristianServiceProps = {
   role?: ChristianRoles;
@@ -11,23 +12,80 @@ export const getChristiansService = async ({
   role,
 }: GetChristianServiceProps) => {
   const christianRepository = appDataSource.getRepository('christians');
+  let cacheKey = '';
+
+  if (!gender && !role) {
+    cacheKey = 'getChristiansService';
+    const cachedData = await redis.get(cacheKey);
+
+    if (cachedData) {
+      return JSON.parse(cachedData);
+    }
+
+    const christians = await christianRepository.find();
+
+    await redis.set(cacheKey, JSON.stringify(christians));
+
+    return christians;
+  }
 
   if (gender && role) {
-    return await christianRepository.find({
+    cacheKey = `getChristiansService-${gender}-${role}`;
+
+    const cachedData = await redis.get(cacheKey);
+
+    if (cachedData) {
+      return JSON.parse(cachedData);
+    }
+
+    const christians = await christianRepository.find({
       where: {
         gender,
         roles: '["' + role + '"]',
       },
     });
+
+    await redis.set(cacheKey, JSON.stringify(christians));
+
+    return christians;
   }
 
   if (!gender && role) {
-    return await christianRepository.find({
+    cacheKey = `getChristiansService-${role}`;
+
+    const cachedData = await redis.get(cacheKey);
+
+    if (cachedData) {
+      return JSON.parse(cachedData);
+    }
+
+    const christians = await christianRepository.find({
       where: {
         roles: '["' + role + '"]',
       },
     });
-  }
 
-  return await christianRepository.find();
+    await redis.set(cacheKey, JSON.stringify(christians));
+
+    return christians;
+  }
+  if (gender && !role) {
+    cacheKey = `getChristiansService-${gender}`;
+
+    const cachedData = await redis.get(cacheKey);
+
+    if (cachedData) {
+      return JSON.parse(cachedData);
+    }
+
+    const christians = await christianRepository.find({
+      where: {
+        gender,
+      },
+    });
+
+    await redis.set(cacheKey, JSON.stringify(christians));
+
+    return christians;
+  }
 };
