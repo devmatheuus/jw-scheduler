@@ -9,7 +9,8 @@
     "typeorm:run": "typeorm-ts-node-commonjs migration:run -d src/dataSource.ts",
     "regenerate-db": "rm -rf src/database/database.sqlite && touch src/database/database.sqlite && npm run typeorm:run",
     "build": "tsc && cd dist && mkdir database && mkdir temp && cd temp && mkdir html && cd .. && cd .. && cp src/database/database.sqlite dist/database/database.sqlite && cp src/meeting.json dist/meeting.json",
-    "start:prod": "node dist/server.js"
+    "start:prod": "node dist/server.js",
+    "vercel-build": "npm run build"
   },
   "keywords": [],
   "author": "",
