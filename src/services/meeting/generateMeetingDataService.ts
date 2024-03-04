@@ -6,6 +6,7 @@ import {
   monthsAliases,
   returnMonthsNames,
 } from '../../utils/returnMonthsNames';
+import { deleteFile } from '../../utils/deleteFile';
 
 let meetingDataObject: any = {};
 
@@ -31,6 +32,7 @@ const configureMeetingDataObject = async (): Promise<void> => {
 
 const accessingAndSavingWorkbooksHTML = async (url: string): Promise<void> => {
   await downloadHTML(url, 'workbooks-links');
+  console.log('workbooks-links.html saved', url);
 };
 
 const extractLinksFromWorkbooksHTML = async (
@@ -200,6 +202,7 @@ export const generateMeetingDataService = async (url: string) => {
     await configureMeetingDataObject();
     await accessingAndSavingWorkbooksHTML(url);
     await downloadEachStudyOfTheWeekHTML();
+    await deleteFile('workbooks-links');
 
     saveToJson();
   } catch (error: any) {
